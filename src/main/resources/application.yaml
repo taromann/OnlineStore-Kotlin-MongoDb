@@ -1,0 +1,10 @@
+server:
+  port: 8189
+  servlet:
+    context-path: /app
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/onlinestore
+      #      uri: mongodb+srv://assemblathe:Fischer123=!@cluster0.3tafu.mongodb.net/?retryWrites=true&w=majority
+      database: onlinestore
