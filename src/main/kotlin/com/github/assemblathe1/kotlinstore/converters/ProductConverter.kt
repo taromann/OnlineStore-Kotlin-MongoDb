@@ -7,6 +7,6 @@ import org.springframework.stereotype.Component
 
 @Component
 class ProductConverter {
-    fun dtoToEntity(productDto: ProductDto?) = Product(productDto?.id?.let { ObjectId(it) }, productDto?.title, productDto?.price)
-    fun entityToDto(product: Product?) = ProductDto(product?.id.toString(), product?.title, product?.price)
+    fun dtoToEntity(productDto: ProductDto) = Product(productDto.id?.let { ObjectId(it) }, productDto.title, productDto.price)
+    fun entityToDto(product: Product) = ProductDto(product.id.toString(), product.title, product.price)
 }

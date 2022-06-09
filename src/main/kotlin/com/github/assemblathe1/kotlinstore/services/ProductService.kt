@@ -28,7 +28,7 @@ class ProductService @Autowired constructor(
         titlePart: String?,
         sortByTitle: Boolean?,
         sortByPrice: Boolean?
-    ): Page<Product?> {
+    ): Page<Product> {
         val pageable = PageRequest.of(page - 1, 10)
         val query = Query()
         query.with(pageable)

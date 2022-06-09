@@ -3,6 +3,7 @@ package com.github.assemblathe1.kotlinstore.controllers
 import com.github.assemblathe1.kotlinstore.converters.ProductConverter
 import com.github.assemblathe1.kotlinstore.dto.ProductDto
 import com.github.assemblathe1.kotlinstore.services.ProductService
+import com.github.assemblathe1.kotlinstore.validators.ProductValidator
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.web.bind.annotation.*
@@ -11,7 +12,8 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api/v1/products")
 class ProductController @Autowired constructor(
     val productService: ProductService,
-    val productConverter: ProductConverter
+    val productConverter: ProductConverter,
+    val productValidator: ProductValidator
 ) {
 
     @GetMapping
@@ -20,7 +22,7 @@ class ProductController @Autowired constructor(
         @RequestParam(name = "min_price", required = false) minPrice: Int?,
         @RequestParam(name = "max_price", required = false) maxPrice: Int?,
         @RequestParam(name = "title_part", required = false) titlePart: String?,
-        @RequestParam(name = "sortByTitle", required = false) sortByTitle: Boolean?,
+        @RequestParam(name = "sortByTitle", defaultValue = "1", required = false) sortByTitle: Boolean?,
         @RequestParam(name = "sortByPrice", required = false) sortByPrice: Boolean?
     ): Page<ProductDto?> {
         // TODO if (page < 1) {page = 1}
@@ -29,17 +31,19 @@ class ProductController @Autowired constructor(
     }
 
     @GetMapping("/{id}")
-    fun findById(@PathVariable id: String): ProductDto =
-        productConverter.entityToDto(productService.findById(id))
+    fun findById(@PathVariable id: String): ProductDto? =
+        productService.findById(id)?.let { productConverter.entityToDto(it) }
 
     @PostMapping
     fun create(@RequestBody productDto: ProductDto): ProductDto? {
+        productValidator.validate(productDto)
         return productConverter.entityToDto(productService.create(productConverter.dtoToEntity(productDto)))
     }
 
     @PutMapping
-    fun update(@RequestBody productDto: ProductDto): ProductDto {
-        return productConverter.entityToDto(productService.update(productConverter.dtoToEntity(productDto)))
+    fun update(@RequestBody productDto: ProductDto): ProductDto? {
+        productValidator.validate(productDto)
+        return productService.update(productConverter.dtoToEntity(productDto))?.let {  productConverter.entityToDto(it) }
     }
 
     @DeleteMapping("/{id}")

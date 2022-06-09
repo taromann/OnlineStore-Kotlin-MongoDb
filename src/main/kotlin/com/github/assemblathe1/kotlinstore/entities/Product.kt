@@ -8,6 +8,6 @@ import java.math.BigDecimal
 @Document(collection = "products")
 data class Product(
     @Id var id: ObjectId? = null,
-    var title: String? = null,
-    var price: BigDecimal? = null
+    var title: String,
+    var price: BigDecimal
 )

@@ -9,6 +9,6 @@ import java.math.BigDecimal
 // TODO make not null
 data class ProductDto(
     var id: String? = null,
-    var title: String? = null,
-    var price: BigDecimal? = null
+    var title: String,
+    var price: BigDecimal
 )
