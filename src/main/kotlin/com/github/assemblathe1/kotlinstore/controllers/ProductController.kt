@@ -31,21 +31,21 @@ class ProductController @Autowired constructor(
     }
 
     @GetMapping("/{id}")
-    fun findById(@PathVariable id: String): ProductDto? =
+    fun findById(@PathVariable id: String): ProductDto? {
+        productValidator.validateId(id)
+        return productService.findById(id)?.let { productConverter.entityToDto(it) }
+    }
 
-        //TODO java.lang.IllegalArgumentException: invalid hexadecimal representation of an ObjectId: [62a0e2ecde1e877e1320756r]
-
-        productService.findById(id)?.let { productConverter.entityToDto(it) }
 
     @PostMapping
     fun create(@RequestBody productDto: ProductDto): ProductDto? {
-        productValidator.validate(productDto)
+        productValidator.validateProductDto(productDto)
         return productConverter.entityToDto(productService.create(productConverter.dtoToEntity(productDto)))
     }
 
     @PutMapping
     fun update(@RequestBody productDto: ProductDto): ProductDto? {
-        productValidator.validate(productDto)
+        productValidator.validateProductDto(productDto)
         return productService.update(productConverter.dtoToEntity(productDto))?.let {  productConverter.entityToDto(it) }
     }
 
