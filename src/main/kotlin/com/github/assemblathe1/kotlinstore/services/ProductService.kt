@@ -1,6 +1,7 @@
 package com.github.assemblathe1.kotlinstore.services
 
 import com.github.assemblathe1.kotlinstore.entities.Product
+import com.github.assemblathe1.kotlinstore.exceprions.exceptions.ResourceNotFoundException
 import com.github.assemblathe1.kotlinstore.repositories.ProductRepository
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
@@ -54,14 +55,18 @@ class ProductService @Autowired constructor(
 
     fun create(product: Product): Product = productRepository.insert(product)
 
-    fun findById(id: String): Product? = productRepository.findByIdOrNull(ObjectId(id))
+    fun findById(id: String): Product? =
+        productRepository.findByIdOrNull(ObjectId(id)) ?: throw ResourceNotFoundException("Product was not found")
 
     @Transactional
     fun update(newProduct: Product): Product? {
-        return productRepository.findByIdOrNull(newProduct.id)?.apply {
-            this.price = newProduct.price
-            this.title = newProduct.title
-            productRepository.save(this)
+        return newProduct.id?.let {
+            println(it.toHexString())
+            findById(it.toHexString())?.apply {
+                this.price = newProduct.price
+                this.title = newProduct.title
+                productRepository.save(this)
+            }
         }
     }
 

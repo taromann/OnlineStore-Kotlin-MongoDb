@@ -32,6 +32,9 @@ class ProductController @Autowired constructor(
 
     @GetMapping("/{id}")
     fun findById(@PathVariable id: String): ProductDto? =
+
+        //TODO java.lang.IllegalArgumentException: invalid hexadecimal representation of an ObjectId: [62a0e2ecde1e877e1320756r]
+
         productService.findById(id)?.let { productConverter.entityToDto(it) }
 
     @PostMapping
