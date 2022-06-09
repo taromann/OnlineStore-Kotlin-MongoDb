@@ -15,20 +15,22 @@ class ProductController @Autowired constructor(
 ) {
 
     @GetMapping
-    fun getAll(
+    fun findAll(
         @RequestParam(name = "p", defaultValue = "1") page: Int,
         @RequestParam(name = "min_price", required = false) minPrice: Int?,
         @RequestParam(name = "max_price", required = false) maxPrice: Int?,
-        @RequestParam(name = "title_part", required = false) titlePart: String?
+        @RequestParam(name = "title_part", required = false) titlePart: String?,
+        @RequestParam(name = "sortByTitle", required = false) sortByTitle: Boolean?,
+        @RequestParam(name = "sortByPrice", required = false) sortByPrice: Boolean?
     ): Page<ProductDto?> {
-        //TODO if (page < 1) {page = 1}
-        return productService.getAll(minPrice, maxPrice, titlePart, page)
+        // TODO if (page < 1) {page = 1}
+        return productService.findAll(page, minPrice, maxPrice, titlePart, sortByTitle, sortByPrice)
             .map { productConverter.entityToDto(it) }
     }
 
     @GetMapping("/{id}")
-    fun getById(@PathVariable id: String): ProductDto =
-        productConverter.entityToDto(productService.getById(id))
+    fun findById(@PathVariable id: String): ProductDto =
+        productConverter.entityToDto(productService.findById(id))
 
     @PostMapping
     fun create(@RequestBody productDto: ProductDto): ProductDto? {

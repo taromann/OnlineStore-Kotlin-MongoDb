@@ -6,6 +6,7 @@ import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
@@ -20,26 +21,40 @@ class ProductService @Autowired constructor(
     val productRepository: ProductRepository
 ) {
 
-    fun getAll(minPrice: Int?, maxPrice: Int?, titlePart: String?, page: Int): Page<Product?> /*List<Product>*/ {
-        val pageable = PageRequest.of(page - 1, 5)
+    fun findAll(
+        page: Int,
+        minPrice: Int?,
+        maxPrice: Int?,
+        titlePart: String?,
+        sortByTitle: Boolean?,
+        sortByPrice: Boolean?
+    ): Page<Product?> {
+        val pageable = PageRequest.of(page - 1, 10)
         val query = Query()
         query.with(pageable)
 
-        titlePart?.let { query.addCriteria(Criteria.where("title").regex(titlePart)) }
         val priceCriteria = Criteria("price")
         minPrice?.let { priceCriteria.gte(minPrice) } ?: priceCriteria.gte(0)
         maxPrice?.let { priceCriteria.lte(maxPrice) } ?: priceCriteria.lte(Int.MAX_VALUE)
+        titlePart?.let { query.addCriteria(Criteria.where("title").regex(titlePart)) }
+        sortByTitle?.let {
+            query.with(
+                Sort.by(getSortingDirection(sortByTitle), "title").and(Sort.by(Sort.Direction.ASC, "price"))
+            )
+        }
+        sortByPrice?.let {
+            query.with(Sort.by(getSortingDirection(sortByPrice), "price"))
+        }
         query.addCriteria(priceCriteria)
 
         return PageableExecutionUtils.getPage(
-            mongoTemplate.find(query, Product::class.java),
-            pageable
+            mongoTemplate.find(query, Product::class.java), pageable
         ) { mongoTemplate.count(query, Product::class.java) }
     }
 
     fun create(product: Product): Product = productRepository.insert(product)
 
-    fun getById(id: String): Product? = productRepository.findByIdOrNull(ObjectId(id))
+    fun findById(id: String): Product? = productRepository.findByIdOrNull(ObjectId(id))
 
     @Transactional
     fun update(newProduct: Product): Product? {
@@ -51,5 +66,8 @@ class ProductService @Autowired constructor(
     }
 
     fun deleteById(id: String) = productRepository.deleteById(ObjectId(id))
+
+    private fun getSortingDirection(pathVariable: Boolean) =
+        if (pathVariable) Sort.Direction.ASC else Sort.Direction.DESC
 
 }

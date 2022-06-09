@@ -32,29 +32,29 @@ fun main() {
     val collectionOfProducts: MongoCollection<Product> = database.getCollection("products", Product::class.java)
 
     collectionOfProducts.insertMany(mutableListOf(
-        Product(title = "Chicken", price = 20.toBigDecimal()),
-        Product(title = "Bread", price = 40.toBigDecimal()),
-        Product(title = "Cheese", price = 60.toBigDecimal()),
-        Product(title = "Beef", price = 30.toBigDecimal()),
-        Product(title = "Milk", price = 10.toBigDecimal()),
-        Product(title = "Salmon", price = 15.toBigDecimal()),
-        Product(title = "Trout", price = 76.toBigDecimal()),
-        Product(title = "Avocado", price = 81.toBigDecimal()),
-        Product(title = "Carrot", price = 34.toBigDecimal()),
-        Product(title = "Cucumber", price = 105.toBigDecimal()),
-        Product(title = "Apple", price = 777.toBigDecimal())
+        Product(title = "Chicken", price = 25.toBigDecimal()),
+        Product(title = "Bread", price = 48.toBigDecimal()),
+//        Product(title = "Cheese", price = 60.toBigDecimal()),
+//        Product(title = "Beef", price = 30.toBigDecimal()),
+//        Product(title = "Milk", price = 10.toBigDecimal()),
+//        Product(title = "Salmon", price = 15.toBigDecimal()),
+//        Product(title = "Trout", price = 76.toBigDecimal()),
+//        Product(title = "Avocado", price = 81.toBigDecimal()),
+//        Product(title = "Carrot", price = 34.toBigDecimal()),
+//        Product(title = "Cucumber", price = 105.toBigDecimal()),
+//        Product(title = "Apple", price = 777.toBigDecimal())
 
     ))
 
-    val collectionOfUsers: MongoCollection<User> = database.getCollection("users", User::class.java)
-
-    collectionOfUsers.insertMany(mutableListOf(
-        User(userName = "John", age = 15, email = "john@mail.ru"),
-        User(userName = "Nick", age = 25, email = "nick@mail.ru"),
-        User(userName = "Roma", age = 46, email = "roma@mail.ru"),
-        User(userName = "Fill", age = 17, email = "fill@mail.ru"),
-        User(userName = "Anya", age = 89, email = "anya@mail.ru"),
-        User(userName = "Masha", age = 101, email = "masha@mail.ru")
-    ))
+//    val collectionOfUsers: MongoCollection<User> = database.getCollection("users", User::class.java)
+//
+//    collectionOfUsers.insertMany(mutableListOf(
+//        User(userName = "John", age = 15, email = "john@mail.ru"),
+//        User(userName = "Nick", age = 25, email = "nick@mail.ru"),
+//        User(userName = "Roma", age = 46, email = "roma@mail.ru"),
+//        User(userName = "Fill", age = 17, email = "fill@mail.ru"),
+//        User(userName = "Anya", age = 89, email = "anya@mail.ru"),
+//        User(userName = "Masha", age = 101, email = "masha@mail.ru")
+//    ))
 
 }
