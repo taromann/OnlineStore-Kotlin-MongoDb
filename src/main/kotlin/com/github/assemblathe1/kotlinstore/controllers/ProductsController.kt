@@ -1,16 +1,17 @@
 package com.github.assemblathe1.kotlinstore.controllers
-
+import ccom.github.assemblathe1.kotlinstore.dto.ProductDto
 import com.github.assemblathe1.kotlinstore.converters.ProductConverter
-import com.github.assemblathe1.kotlinstore.dto.ProductDto
 import com.github.assemblathe1.kotlinstore.services.ProductService
 import com.github.assemblathe1.kotlinstore.validators.ProductValidator
+
+
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1/products")
-class ProductController @Autowired constructor(
+class ProductsController @Autowired constructor(
     val productService: ProductService,
     val productConverter: ProductConverter,
     val productValidator: ProductValidator
@@ -25,6 +26,7 @@ class ProductController @Autowired constructor(
         @RequestParam(name = "sortByTitle", defaultValue = "1", required = false) sortByTitle: Boolean?,
         @RequestParam(name = "sortByPrice", required = false) sortByPrice: Boolean?
     ): Page<ProductDto?> {
+        println("${page}, ${minPrice}, ${maxPrice}, ${titlePart}, ${sortByTitle}, ${sortByPrice}")
         // TODO if (page < 1) {page = 1}
         return productService.findAll(page, minPrice, maxPrice, titlePart, sortByTitle, sortByPrice)
             .map { productConverter.entityToDto(it) }
@@ -46,7 +48,7 @@ class ProductController @Autowired constructor(
     @PutMapping
     fun update(@RequestBody productDto: ProductDto): ProductDto? {
         productValidator.validateProductDto(productDto)
-        return productService.update(productConverter.dtoToEntity(productDto))?.let {  productConverter.entityToDto(it) }
+        return productService.update(productConverter.dtoToEntity(productDto))?.let { productConverter.entityToDto(it) }
     }
 
     @DeleteMapping("/{id}")

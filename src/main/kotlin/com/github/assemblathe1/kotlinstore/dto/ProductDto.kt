@@ -1,4 +1,4 @@
-package com.github.assemblathe1.kotlinstore.dto
+package ccom.github.assemblathe1.kotlinstore.dto
 
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id

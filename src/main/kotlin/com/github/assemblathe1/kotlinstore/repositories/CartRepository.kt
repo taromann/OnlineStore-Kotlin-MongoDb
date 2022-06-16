@@ -1,9 +1,11 @@
 package com.github.assemblathe1.kotlinstore.repositories
 
-import com.geekbrains.spring.web.entities.Product
-import org.bson.types.ObjectId
+import com.github.assemblathe1.kotlinstore.dto.Cart
 import org.springframework.data.mongodb.repository.MongoRepository
+import org.springframework.data.mongodb.repository.Query
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ProductRepository : MongoRepository<Product?, ObjectId?>
+interface CartRepository : MongoRepository<Cart?, String?> {
+
+}

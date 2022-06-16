@@ -1,7 +1,7 @@
 package com.github.assemblathe1.kotlinstore.services
 
-import com.github.assemblathe1.kotlinstore.entities.Product
-import com.github.assemblathe1.kotlinstore.exceprions.exceptions.ResourceNotFoundException
+import com.geekbrains.spring.web.entities.Product
+import com.github.assemblathe1.kotlinstore.exceptions.exceptions.ResourceNotFoundException
 import com.github.assemblathe1.kotlinstore.repositories.ProductRepository
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired

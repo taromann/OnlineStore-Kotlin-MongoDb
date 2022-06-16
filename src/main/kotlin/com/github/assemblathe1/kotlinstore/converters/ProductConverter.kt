@@ -1,7 +1,8 @@
 package com.github.assemblathe1.kotlinstore.converters
 
-import com.github.assemblathe1.kotlinstore.dto.ProductDto
-import com.github.assemblathe1.kotlinstore.entities.Product
+
+import ccom.github.assemblathe1.kotlinstore.dto.ProductDto
+import com.geekbrains.spring.web.entities.Product
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Component
 

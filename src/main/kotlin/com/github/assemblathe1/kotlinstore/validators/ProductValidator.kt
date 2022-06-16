@@ -1,6 +1,7 @@
 package com.github.assemblathe1.kotlinstore.validators
 
-import com.github.assemblathe1.kotlinstore.dto.ProductDto
+
+import ccom.github.assemblathe1.kotlinstore.dto.ProductDto
 import com.github.assemblathe1.kotlinstore.exceprions.exceptions.ValidationException
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Component

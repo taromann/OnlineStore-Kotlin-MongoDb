@@ -1,3 +1,3 @@
-package com.github.assemblathe1.kotlinstore.exceprions.errors
+package com.github.assemblathe1.kotlinstore.exceptions.errors
 
-class ResourceNotFoundError(val statusCode: Int, val message: String?)
+class ResourceNotFoundError(statusCode: Int, message: String?): Error(statusCode, message)
