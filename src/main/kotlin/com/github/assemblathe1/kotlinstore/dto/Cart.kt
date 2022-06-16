@@ -8,15 +8,15 @@ import org.springframework.data.mongodb.core.mapping.MongoId
 import java.math.BigDecimal
 
 @Document(collection = "carts")
-class Cart(
+data class Cart(
     @MongoId(value = FieldType.OBJECT_ID)
     var id: ObjectId? = null,
-    private val items: MutableList<OrderItemDto> = mutableListOf(),
-    private var totalPrice: BigDecimal = BigDecimal.ZERO
+    val items: MutableList<OrderItemDto> = mutableListOf(),
+    var totalPrice: BigDecimal = BigDecimal.ZERO
 ) {
     fun add(product: Product) {
         if (incrementProduct(product)) return
-        items.add(OrderItemDto(product))
+        items.add(OrderItemDto(productId = product.id.toString(), productTitle = product.title, quantity = 10, pricePerProduct = product.price, price = product.price))
         recalculate()
     }
 

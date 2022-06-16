@@ -19,14 +19,14 @@ class CartsController @Autowired constructor(val cartService: CartService, val p
         username?.let { cartService.getCurrentCartByUserName(username) } ?: cartService.getCurrentCartById(uuid)
 
 
-//    @GetMapping("/{uuid}/add/{productId}")
-//    fun add(
-//        @RequestHeader(required = false) username: String?,
-//        @PathVariable uuid: String,
-//        @PathVariable productId: Long
-//    ) {
-//        username?.let { cartService.addProductToCartByUserName(username) } ?: cartService.addProductToCartById(uuid)
-//    }
+    @GetMapping("/{uuid}/add/{productId}")
+    fun addProductToCart(
+        @RequestHeader(required = false) username: String?,
+        @PathVariable uuid: String,
+        @PathVariable productId: String
+    ) {
+        username?.let { cartService.addProductToCartByUserName(username, productId) } ?: cartService.addProductToCartById(uuid, productId)
+    }
 
 
 //    @GetMapping("/{uuid}/decrement/{productId}")

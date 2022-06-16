@@ -1,6 +1,5 @@
 package com.github.assemblathe1.kotlinstore.converters
 
-import com.geekbrains.spring.web.entities.Product
 import com.github.assemblathe1.kotlinstore.dto.OrderItemDto
 import com.github.assemblathe1.kotlinstore.entities.OrderItem
 import org.springframework.stereotype.Component
@@ -10,11 +9,11 @@ class OrderItemConverter {
     fun dtoToEntity(orderItemDto: OrderItemDto): Nothing = throw UnsupportedOperationException()
     fun entityToDto(orderItem: OrderItem): OrderItemDto {
         val orderItemDto = OrderItemDto(
-            Product(
-                orderItem.product.id,
-                orderItem.product.title,
-                orderItem.product.price,
-            )
+            productId = orderItem.product.id.toString(),
+            productTitle = orderItem.product.title,
+            quantity =  orderItem.quantity,
+            pricePerProduct = orderItem.product.price,
+            price = orderItem.product.price
         )
         orderItemDto.quantity = orderItem.quantity
         orderItemDto.pricePerProduct = orderItem.pricePerProduct

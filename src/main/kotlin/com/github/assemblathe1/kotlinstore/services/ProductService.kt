@@ -56,7 +56,7 @@ class ProductService @Autowired constructor(
     fun create(product: Product): Product = productRepository.insert(product)
 
     fun findById(id: String): Product? =
-        productRepository.findByIdOrNull(ObjectId(id)) ?: throw ResourceNotFoundException("Product was not found")
+        productRepository.findById(ObjectId(id)).orElseThrow { ResourceNotFoundException("Product was not found") }
 
     @Transactional
     fun update(newProduct: Product): Product? {
