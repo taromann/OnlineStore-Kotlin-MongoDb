@@ -33,9 +33,9 @@ class ProductsController @Autowired constructor(
     }
 
     @GetMapping("/{id}")
-    fun findById(@PathVariable id: String): ProductDto? {
+    fun findById(@PathVariable id: String): ProductDto {
         productValidator.validateIdDto(id)
-        return productService.findById(id)?.let { productConverter.entityToDto(it) }
+        return productService.findById(id).let { productConverter.entityToDto(it) }
     }
 
 

@@ -37,46 +37,46 @@ class CartService @Autowired constructor(
         return cart
     }
 
-    fun getCurrentCartByUserName(username: String): Cart? = userService.findByUsername(username).cart
+    fun getCurrentCartByUserName(username: String): Cart = userService.findByUsername(username).cart ?: Cart()
 
     @Transactional
     fun addProductToCartById(uuid: String, productId: String) {
-        productsService.findById(productId)?.let { product ->
+        productsService.findById(productId).let { product ->
             val currentCart = getCurrentCartById(uuid)
             currentCart?.add(product)?.run { cartRepository.save(currentCart) }
         }
     }
 
     fun addProductToCartByUserName(username: String, productId: String) {
-        productsService.findById(productId)?.let { product ->
+        productsService.findById(productId).let { product ->
             val currentCart = getCurrentCartByUserName(username)
             currentCart?.add(product)?.run { userService.updateCartForUser(username, currentCart) }
         }
     }
 
     fun decrementItemFromCartById(uuid: String, productId: String) {
-        productsService.findById(productId)?.let { product ->
+        productsService.findById(productId).let { product ->
             val currentCart = getCurrentCartById(uuid)
             currentCart?.decrement(product.id.toString())?.run { cartRepository.save(currentCart) }
         }
     }
 
     fun decrementItemFromCartByUserName(username: String, productId: String) {
-        productsService.findById(productId)?.let { product ->
+        productsService.findById(productId).let { product ->
             val currentCart = getCurrentCartByUserName(username)
             currentCart?.decrement(product.id.toString())?.run { userService.updateCartForUser(username, currentCart) }
         }
     }
 
     fun removeItemFromCartById(uuid: String, productId: String) {
-        productsService.findById(productId)?.let { product ->
+        productsService.findById(productId).let { product ->
             val currentCart = getCurrentCartById(uuid)
             currentCart?.remove(product.id.toString())?.run { cartRepository.save(currentCart) }
         }
     }
 
     fun removeItemFromCartByUserName(username: String, productId: String) {
-        productsService.findById(productId)?.let { product ->
+        productsService.findById(productId).let { product ->
             val currentCart = getCurrentCartByUserName(username)
             currentCart?.remove(product.id.toString())?.run { userService.updateCartForUser(username, currentCart) }
         }
@@ -92,7 +92,7 @@ class CartService @Autowired constructor(
     }
 
     fun clearCartByUserName(username: String) {
-        getCurrentCartByUserName(username)?.run {
+        getCurrentCartByUserName(username).run {
             userService.updateCartForUser(username, Cart())
         }
     }

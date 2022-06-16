@@ -3,7 +3,8 @@ package com.github.assemblathe1.kotlinstore
 
 import com.geekbrains.spring.web.entities.Product
 import com.github.assemblathe1.kotlinstore.dto.Cart
-import com.github.assemblathe1.kotlinstore.dto.OrderItemDto
+import com.github.assemblathe1.kotlinstore.entities.Order
+import com.github.assemblathe1.kotlinstore.entities.OrderItem
 import com.github.assemblathe1.kotlinstore.entities.Role
 import com.github.assemblathe1.kotlinstore.entities.User
 import com.mongodb.ConnectionString
@@ -78,26 +79,47 @@ fun main() {
 //        )
 //    )
 
-    collectionOfUsers.insertOne(
-        User(
-            userName = "Rombario",
-            age = 15,
-            email = "john@mail.ru",
-            password = "\$2a\$04\$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i",
-            roles = mutableSetOf("user", "admin"),
-            cart =  Cart(
+//    collectionOfUsers.insertOne(
+//        User(
+//            userName = "Rombario",
+//            age = 15,
+//            email = "john@mail.ru",
+//            password = "\$2a\$04\$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i",
+//            roles = mutableSetOf("user", "admin"),
+//            cart =  Cart(
+//                items = mutableListOf(
+//                    OrderItemDto(
+//                        productId = product.id.toString(),
+//                        productTitle = product.title,
+//                        quantity = 10,
+//                        pricePerProduct = product.price,
+//                        price = product.price
+//                    )
+//                ),
+//                totalPrice = BigDecimal(777)
+//            )
+//        ),
+//    )
+
+    val collectionOfOrders: MongoCollection<Order> = database.getCollection("orders", Order::class.java)
+
+    collectionOfOrders.insertMany(
+        mutableListOf(
+            Order(
+                username = "Rombario",
                 items = mutableListOf(
-                    OrderItemDto(
-                        productId = product.id.toString(),
-                        productTitle = product.title,
+                    OrderItem(
+                        product = product,
                         quantity = 10,
                         pricePerProduct = product.price,
                         price = product.price
                     )
                 ),
-                totalPrice = BigDecimal(777)
+                address = "Sverdlovsk",
+                phone = "8-800-555-3535"
             )
-        ),
+
+        )
     )
 
 

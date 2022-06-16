@@ -55,14 +55,14 @@ class ProductService @Autowired constructor(
 
     fun create(product: Product): Product = productRepository.insert(product)
 
-    fun findById(id: String): Product? =
-        productRepository.findById(ObjectId(id)).orElseThrow { ResourceNotFoundException("Product was not found") }
+    fun findById(id: String): Product =
+        productRepository.findById(ObjectId(id)).orElseThrow { ResourceNotFoundException("Product was not found") }!!
 
     @Transactional
     fun update(newProduct: Product): Product? {
         return newProduct.id?.let {
             println(it.toHexString())
-            findById(it.toHexString())?.apply {
+            findById(it.toHexString()).apply {
                 this.price = newProduct.price
                 this.title = newProduct.title
                 productRepository.save(this)

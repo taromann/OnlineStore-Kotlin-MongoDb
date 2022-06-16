@@ -7,7 +7,6 @@ import java.math.BigDecimal
 class OrderItem(
     var id: ObjectId? = null,
     val product: Product,
-    val order: Order,
     val quantity: Int,
     val pricePerProduct: BigDecimal,
     val price: BigDecimal
