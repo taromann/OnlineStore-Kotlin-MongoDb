@@ -16,7 +16,8 @@ class CartsController @Autowired constructor(val cartService: CartService, val p
 
     @GetMapping("/{uuid}")
     fun getCart(@RequestHeader(required = false) username: String?, @PathVariable uuid: String): Cart? =
-        username?.let { cartService.getCurrentCartByUserName(username) } ?: cartService.getCurrentCartById(uuid)
+        username?.let { cartService.getCurrentCartByUserName(username) }
+            ?: cartService.getCurrentCartById(uuid)
 
 
     @GetMapping("/{uuid}/add/{productId}")
@@ -25,39 +26,40 @@ class CartsController @Autowired constructor(val cartService: CartService, val p
         @PathVariable uuid: String,
         @PathVariable productId: String
     ) {
-        username?.let { cartService.addProductToCartByUserName(username, productId) } ?: cartService.addProductToCartById(uuid, productId)
+        username?.let { cartService.addProductToCartByUserName(username, productId) }
+            ?: cartService.addProductToCartById(uuid, productId)
     }
 
 
-//    @GetMapping("/{uuid}/decrement/{productId}")
-//    fun decrement(
-//        @RequestHeader(required = false) username: String?,
-//        @PathVariable uuid: String,
-//        @PathVariable productId: Long
-//    ) {
-//        cartService.decrementItem(getCurrentCartUuid(username, uuid), productId)
-//    }
-//
-//    @GetMapping("/{uuid}/remove/{productId}")
-//    fun remove(
-//        @RequestHeader(required = false) username: String?,
-//        @PathVariable uuid: String,
-//        @PathVariable productId: Long
-//    ) {
-//        cartService.removeItemFromCart(getCurrentCartUuid(username, uuid), productId)
-//    }
-//
-//
-//    @GetMapping("/{uuid}/clear")
-//    fun clear(@RequestHeader(required = false) username: String?, @PathVariable uuid: String) {
-//        cartService.clearCart(getCurrentCartUuid(username, uuid))
-//    }
-//
-//    @GetMapping("/{uuid}/merge")
-//    fun merge(@RequestHeader(required = false) username: String?, @PathVariable uuid: String) {
-//        cartService.merge(
-//            getCurrentCartUuid(username = username, uuid = uuid),
-//            getCurrentCartUuid(uuid = uuid)
-//        )
-//    }
+    @GetMapping("/{uuid}/decrement/{productId}")
+    fun decrement(
+        @RequestHeader(required = false) username: String?,
+        @PathVariable uuid: String,
+        @PathVariable productId: String
+    ) {
+        username?.let { cartService.decrementItemFromCartByUserName(username, productId) }
+            ?: cartService.decrementItemFromCartById(uuid, productId)
+    }
+
+    //
+    @GetMapping("/{uuid}/remove/{productId}")
+    fun remove(
+        @RequestHeader(required = false) username: String?,
+        @PathVariable uuid: String,
+        @PathVariable productId: String
+    ) {
+        username?.let { cartService.removeItemFromCartByUserName(username, productId) }
+            ?: cartService.removeItemFromCartById(uuid, productId)
+    }
+
+    @GetMapping("/{uuid}/merge")
+    fun merge(@RequestHeader username: String, @PathVariable uuid: String) {
+        cartService.merge(username, uuid)
+    }
+
+    @GetMapping("/{uuid}/clear")
+    fun clear(@RequestHeader(required = false) username: String?, @PathVariable uuid: String) {
+        username?.let { cartService.clearCartByUserName(username) }
+            ?: cartService.clearCartById(uuid)
+    }
 }

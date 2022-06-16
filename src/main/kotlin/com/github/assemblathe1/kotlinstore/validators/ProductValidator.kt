@@ -9,19 +9,20 @@ import java.math.BigDecimal
 
 @Component
 class ProductValidator {
-    fun validateProductDto(productDto: ProductDto) {
-        val errors = mutableListOf<String>()
-        validateTitleAndPrice(productDto.price < BigDecimal.ONE, errors, "Цена продукта не может быть меньше 1")
-        validateTitleAndPrice(productDto.title.isEmpty(), errors, "Продукт не может иметь пустое название")
-        validateId(productDto.id.toString(), errors)
+
+    val errors = mutableListOf<String>()
+    fun validateAllProductDto(productDto: ProductDto) {
+        validateTitleAndPriceDto(productDto)
+        validateIdDto(productDto.id.toString(), errors)
         if (errors.isNotEmpty()) throw ValidationException(errors)
     }
 
-    private fun validateTitleAndPrice(predicate: Boolean, errors: MutableList<String>, message: String) {
-        if (predicate) errors.add(message)
+    fun validateTitleAndPriceDto(productDto: ProductDto) {
+        if (productDto.price < BigDecimal.ONE) errors.add("Цена продукта не может быть меньше 1")
+        if (productDto.title.isEmpty()) errors.add("Продукт не может иметь пустое название")
     }
 
-    fun validateId(id: String, listOfErrors: MutableList<String>? = null) = try {
+    fun validateIdDto(id: String, listOfErrors: MutableList<String>? = null) = try {
         ObjectId(id)
     } catch (e: IllegalArgumentException) {
         listOfErrors?.let { listOfErrors.add("Некорректный формат ID") } ?: throw ValidationException(mutableListOf("Некорректный формат ID"))

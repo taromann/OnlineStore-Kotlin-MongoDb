@@ -44,37 +44,61 @@ class CartService @Autowired constructor(
         productsService.findById(productId)?.let { product ->
             val currentCart = getCurrentCartById(uuid)
             currentCart?.add(product)?.run { cartRepository.save(currentCart) }
-
         }
-
     }
 
     fun addProductToCartByUserName(username: String, productId: String) {
         productsService.findById(productId)?.let { product ->
             val currentCart = getCurrentCartByUserName(username)
             currentCart?.add(product)?.run { userService.updateCartForUser(username, currentCart) }
-
         }
     }
 
-    fun addToCart(currentCartUuid: String?, productId: Long): Any {
-        TODO("Not yet implemented")
+    fun decrementItemFromCartById(uuid: String, productId: String) {
+        productsService.findById(productId)?.let { product ->
+            val currentCart = getCurrentCartById(uuid)
+            currentCart?.decrement(product.id.toString())?.run { cartRepository.save(currentCart) }
+        }
     }
 
-    fun decrementItem(currentCartUuid: String?, productId: Long) {
-        TODO("Not yet implemented")
+    fun decrementItemFromCartByUserName(username: String, productId: String) {
+        productsService.findById(productId)?.let { product ->
+            val currentCart = getCurrentCartByUserName(username)
+            currentCart?.decrement(product.id.toString())?.run { userService.updateCartForUser(username, currentCart) }
+        }
     }
 
-    fun clearCart(currentCartUuid: String?) {
-        TODO("Not yet implemented")
+    fun removeItemFromCartById(uuid: String, productId: String) {
+        productsService.findById(productId)?.let { product ->
+            val currentCart = getCurrentCartById(uuid)
+            currentCart?.remove(product.id.toString())?.run { cartRepository.save(currentCart) }
+        }
     }
 
-    fun merge(currentCartUuid: String?, currentCartUuid1: String?) {
-        TODO("Not yet implemented")
+    fun removeItemFromCartByUserName(username: String, productId: String) {
+        productsService.findById(productId)?.let { product ->
+            val currentCart = getCurrentCartByUserName(username)
+            currentCart?.remove(product.id.toString())?.run { userService.updateCartForUser(username, currentCart) }
+        }
     }
 
-    fun removeItemFromCart(currentCartUuid: String?, productId: Long) {
-        TODO("Not yet implemented")
+    fun merge(username: String, uuid: String) {
+        getCurrentCartById(uuid)?.run {
+            val userCart = getCurrentCartByUserName(username) ?: Cart()
+            userCart.merge(this)
+            userService.updateCartForUser(username, userCart)
+        }
+
+    }
+
+    fun clearCartByUserName(username: String) {
+        getCurrentCartByUserName(username)?.run {
+            userService.updateCartForUser(username, Cart())
+        }
+    }
+
+    fun clearCartById(uuid: String) {
+        getCurrentCartById(uuid)?.run { cartRepository.save(Cart(id = this.id)) }
     }
 
 }

@@ -34,20 +34,20 @@ class ProductsController @Autowired constructor(
 
     @GetMapping("/{id}")
     fun findById(@PathVariable id: String): ProductDto? {
-        productValidator.validateId(id)
+        productValidator.validateIdDto(id)
         return productService.findById(id)?.let { productConverter.entityToDto(it) }
     }
 
 
     @PostMapping
     fun create(@RequestBody productDto: ProductDto): ProductDto? {
-        productValidator.validateProductDto(productDto)
+        productValidator.validateTitleAndPriceDto(productDto)
         return productConverter.entityToDto(productService.create(productConverter.dtoToEntity(productDto)))
     }
 
     @PutMapping
     fun update(@RequestBody productDto: ProductDto): ProductDto? {
-        productValidator.validateProductDto(productDto)
+        productValidator.validateAllProductDto(productDto)
         return productService.update(productConverter.dtoToEntity(productDto))?.let { productConverter.entityToDto(it) }
     }
 
