@@ -2,7 +2,7 @@ package com.github.assemblathe1.kotlinstore.validators
 
 
 import ccom.github.assemblathe1.kotlinstore.dto.ProductDto
-import com.github.assemblathe1.kotlinstore.exceprions.exceptions.ValidationException
+import com.github.assemblathe1.kotlinstore.exceptions.exceptions.ValidationException
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Component
 import java.math.BigDecimal

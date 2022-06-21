@@ -1,4 +1,4 @@
-package com.github.assemblathe1.kotlinstore.exceprions.exceptions
+package com.github.assemblathe1.kotlinstore.exceptions.exceptions
 
 import java.util.stream.Collectors
 

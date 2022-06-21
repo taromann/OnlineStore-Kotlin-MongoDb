@@ -1,6 +1,6 @@
-package com.github.assemblathe1.kotlinstore.exceprions
+package com.github.assemblathe1.kotlinstore.exceptions
 
-import com.github.assemblathe1.kotlinstore.exceprions.exceptions.ValidationException
+import com.github.assemblathe1.kotlinstore.exceptions.exceptions.ValidationException
 import com.github.assemblathe1.kotlinstore.exceptions.errors.FieldsValidationError
 import com.github.assemblathe1.kotlinstore.exceptions.errors.ResourceNotFoundError
 import com.github.assemblathe1.kotlinstore.exceptions.exceptions.ResourceNotFoundException
